@@ -1,0 +1,368 @@
+// src/components/ui/QRModal.scss
+
+// Variables
+$modal-bg: rgba(0, 0, 0, 0.75);
+$modal-panel-bg: #ffffff;
+$border-color: #e5e7eb;
+$text-primary: #1f2937;
+$text-secondary: #6b7280;
+$text-muted: #9ca3af;
+$primary-color: #3b82f6;
+$primary-hover: #2563eb;
+$secondary-color: #6b7280;
+$secondary-hover: #4b5563;
+$success-color: #10b981;
+$border-radius: 12px;
+$shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+// Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Modal Base
+.qr-modal {
+  position: relative;
+  z-index: 50;
+
+  // Overlay (Background Blur)
+  &__overlay {
+    position: fixed;
+    inset: 0;
+    background: $modal-bg;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  // Overlay Transitions
+  &__overlay--enter {
+    transition: opacity 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &__overlay--enter-from {
+    opacity: 0;
+  }
+
+  &__overlay--enter-to {
+    opacity: 1;
+  }
+
+  &__overlay--leave {
+    transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &__overlay--leave-from {
+    opacity: 1;
+  }
+
+  &__overlay--leave-to {
+    opacity: 0;
+  }
+
+  // Container
+  &__container {
+    position: fixed;
+    inset: 0;
+    overflow-y: auto;
+  }
+
+  &__wrapper {
+    @include flex-center;
+    min-height: 100%;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  // Panel
+  &__panel {
+    width: 100%;
+    max-width: 500px;
+    background: $modal-panel-bg;
+    border-radius: $border-radius;
+    box-shadow: $shadow-xl;
+    text-align: left;
+    overflow: hidden;
+    transform: scale(1);
+    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  // Panel Transitions
+  &__content--enter {
+    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &__content--enter-from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  &__content--enter-to {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  &__content--leave {
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &__content--leave-from {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  &__content--leave-to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  // Header
+  &__header {
+    @include flex-between;
+    padding: 1.5rem;
+    border-bottom: 1px solid $border-color;
+  }
+
+  &__title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: $text-primary;
+    margin: 0;
+  }
+
+  &__close {
+    @include flex-center;
+    width: 2rem;
+    height: 2rem;
+    background: none;
+    border: none;
+    border-radius: 6px;
+    color: $text-secondary;
+    cursor: pointer;
+    transition: all 200ms ease;
+
+    &:hover {
+      background: #f3f4f6;
+      color: $text-primary;
+    }
+
+    &:focus {
+      outline: 2px solid $primary-color;
+      outline-offset: 2px;
+    }
+
+    svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+
+  // Body
+  &__body {
+    padding: 1.5rem;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  // QR Section
+  &__qr-section {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  &__qr-container {
+    @include flex-center;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 1rem;
+    border: 2px dashed $border-color;
+    border-radius: $border-radius;
+    background: #f9fafb;
+  }
+
+  &__qr-placeholder {
+    @include flex-center;
+    flex-direction: column;
+    color: $text-muted;
+
+    .qr-placeholder__icon {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.875rem;
+    }
+  }
+
+  &__qr-description {
+    color: $text-secondary;
+    font-size: 0.875rem;
+    margin: 0;
+  }
+
+  // Info Section
+  &__info-section {
+    background: #f9fafb;
+    border-radius: $border-radius;
+    padding: 1.5rem;
+  }
+
+  &__info-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: $text-primary;
+    margin: 0 0 1rem 0;
+  }
+
+  &__info-grid {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  &__info-item {
+    @include flex-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid $border-color;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__info-label {
+    font-size: 0.875rem;
+    color: $text-secondary;
+    font-weight: 500;
+  }
+
+  &__info-value {
+    font-size: 0.875rem;
+    color: $text-primary;
+    font-weight: 500;
+    text-align: right;
+  }
+
+  &__status--active {
+    color: $success-color;
+    font-weight: 600;
+  }
+
+  // Footer
+  &__footer {
+    @include flex-between;
+    padding: 1.5rem;
+    border-top: 1px solid $border-color;
+    background: #f9fafb;
+    gap: 0.75rem;
+  }
+
+  // Buttons
+  &__btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 200ms ease;
+    border: none;
+    min-width: 100px;
+
+    &:focus {
+      outline: 2px solid $primary-color;
+      outline-offset: 2px;
+    }
+
+    &--primary {
+      background: $primary-color;
+      color: white;
+
+      &:hover {
+        background: $primary-hover;
+      }
+
+      &:active {
+        transform: scale(0.98);
+      }
+    }
+
+    &--secondary {
+      background: white;
+      color: $secondary-color;
+      border: 1px solid $border-color;
+
+      &:hover {
+        background: #f3f4f6;
+        color: $secondary-hover;
+      }
+
+      &:active {
+        transform: scale(0.98);
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 640px) {
+  .qr-modal {
+    &__wrapper {
+      padding: 0.5rem;
+    }
+
+    &__panel {
+      max-width: 95vw;
+    }
+
+    &__header,
+    &__body,
+    &__footer {
+      padding: 1rem;
+    }
+
+    &__qr-container {
+      width: 150px;
+      height: 150px;
+    }
+
+    &__footer {
+      flex-direction: column;
+      
+      .qr-modal__btn {
+        width: 100%;
+      }
+    }
+
+    &__info-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.25rem;
+
+      .qr-modal__info-value {
+        text-align: left;
+      }
+    }
+  }
+}
+
+// Animation for QR placeholder
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.qr-modal__qr-placeholder {
+  animation: pulse 2s infinite;
+}
