@@ -2,11 +2,22 @@ import { useState, useEffect } from "react";
 import { HelpIcon, ReportIcon, PlaneIcon } from "../../assets/icons";
 import QRModal from "../../components/ui/QRModal/QRModal.jsx";
 import { QRCodeSVG } from "qrcode.react";
+import { useReport } from "../../hooks/useReport.js";
+
+
+
 import "./Home.scss";
 
 const Home = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [isQRModalOpen, setIsQRModalOpen] = useState(false);
+  const [qrLink, setQRLink] = useState("Not Found!")
+  const {
+    generateQR,
+    qrData,
+    isGeneratingQR,
+    error
+  } = useReport();
 
   // Update time every second
   useEffect(() => {
@@ -39,10 +50,19 @@ const Home = () => {
     console.log("Help button clicked - will connect to customer service");
   };
 
-  const handleReportClick = () => {
-    // Open QR Modal
-    setIsQRModalOpen(true);
-    console.log("Report button clicked - opening QR modal");
+  const handleReportClick = async () => {
+    const reportId = 'RPT-002'; // ID report yang mau di-generate QR
+
+    const result = await generateQR(reportId);
+
+    if (result.success) {
+      console.log('QR generated!', result.data);
+      // qrData sekarang berisi response dari API
+      setQRLink(result.data.data.link)
+      setIsQRModalOpen(true);
+    } else {
+      console.error('Failed to generate QR:', result.error);
+    }
   };
 
   return (
@@ -88,13 +108,19 @@ const Home = () => {
 
               <button
                 className="action-btn action-btn--report"
-                onClick={handleReportClick}
+                onClick={handleReportClick} disabled={isGeneratingQR}
               >
-                <div className="action-btn__icon">
-                  <ReportIcon width={48} height={48} />
-                </div>
-                <span className="action-btn__text">Report</span>
-                <p className="action-btn__description">Generate QR Code</p>
+
+                {isGeneratingQR ? <p>
+                  'Generating QR...'
+                </p> : <>
+                  <div className="action-btn__icon">
+                    <ReportIcon width={48} height={48} />
+                  </div>
+                  <span className="action-btn__text">Report</span>
+                  <p className="action-btn__description">Generate QR Code</p></>}
+
+
               </button>
             </div>
           </section>
@@ -134,7 +160,7 @@ const Home = () => {
         title="Service Report QR Code"
         qrContent={
           <QRCodeSVG
-            value="https://www.npmjs.com/package/qrcode.react"
+            value={qrLink}
             size={180}
             level="M"
             includeMargin={true}
