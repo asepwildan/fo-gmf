@@ -1,0 +1,80 @@
+.custom-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 1.5rem;
+    background-color: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+
+    thead {
+        background: linear-gradient(90deg, #4e73df, #6c63ff);
+
+        th {
+            color: #fff;
+            font-weight: 600;
+            padding: 1rem;
+            text-align: left;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+
+            .table-header {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+
+                svg {
+                    stroke: #fff; // ikon putih
+                }
+            }
+        }
+    }
+
+    tbody {
+        tr {
+            transition: background-color 0.2s ease;
+
+            &:nth-child(even) {
+                background-color: #f8f9fc;
+            }
+
+            &:hover {
+                background-color: #eef2ff;
+            }
+
+            td {
+                padding: 0.85rem 1.5rem;
+                font-size: 0.9rem;
+                color: #444;
+                border-top: 1px solid #e5e7eb;
+
+                &:first-child {
+                    font-weight: 500;
+                }
+
+                .photo-link {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 6px;
+                    color: #4e73df;
+                    font-weight: 500;
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+
+                    svg {
+                        stroke: #4e73df;
+                    }
+
+                    &:hover {
+                        color: #2e59d9;
+
+                        svg {
+                            stroke: #2e59d9;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

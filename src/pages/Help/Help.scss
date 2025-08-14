@@ -1,0 +1,164 @@
+// src/pages/Help.scss
+
+.help-page {
+    min-height: 100vh;
+    background: #f9fafb;
+    padding: 2rem 1rem;
+}
+
+.help-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.help-header {
+    text-align: center;
+    margin-bottom: 3rem;
+
+    h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #1f2937;
+        margin-bottom: 0.5rem;
+
+        @media (max-width: 768px) {
+            font-size: 2rem;
+        }
+    }
+
+    p {
+        font-size: 1.125rem;
+        color: #6b7280;
+        margin: 0;
+    }
+}
+
+.help-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.help-section {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e5e7eb;
+
+    h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+}
+
+// Contact Info
+.contact-info {
+    display: grid;
+    gap: 1rem;
+
+    @media (min-width: 640px) {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.contact-item {
+    padding: 1rem;
+    background: #f9fafb;
+    border-radius: 8px;
+    border-left: 4px solid #3b82f6;
+
+    strong {
+        color: #1f2937;
+        display: block;
+        margin-bottom: 0.25rem;
+    }
+}
+
+// FAQ
+.faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.faq-item {
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 1.5rem;
+
+    &:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    h3 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 0.5rem;
+    }
+
+    p {
+        color: #6b7280;
+        line-height: 1.6;
+        margin: 0;
+    }
+}
+
+// Quick Actions
+.quick-actions {
+    display: grid;
+    gap: 1rem;
+
+    @media (min-width: 640px) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.action-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: #3b82f6;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background: #2563eb;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+    .help-page {
+        padding: 1rem 0.5rem;
+    }
+
+    .help-section {
+        padding: 1.5rem;
+    }
+
+    .contact-info {
+        grid-template-columns: 1fr;
+    }
+
+    .quick-actions {
+        grid-template-columns: 1fr;
+    }
+}

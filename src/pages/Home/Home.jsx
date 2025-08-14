@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { HelpIcon, ReportIcon, PlaneIcon } from "../../assets/icons";
 import QRModal from "../../components/ui/QRModal/QRModal.jsx";
 import { QRCodeSVG } from "qrcode.react";
@@ -9,6 +10,7 @@ import { useReport } from "../../hooks/useReport.js";
 import "./Home.scss";
 
 const Home = () => {
+  const navigate = useNavigate();
   const [currentTime, setCurrentTime] = useState(new Date());
   const [isQRModalOpen, setIsQRModalOpen] = useState(false);
   const [qrLink, setQRLink] = useState("Not Found!")
@@ -46,8 +48,7 @@ const Home = () => {
   };
 
   const handleHelpClick = () => {
-    // TODO: Implement customer service connection logic
-    console.log("Help button clicked - will connect to customer service");
+    navigate('/help');
   };
 
   const handleReportClick = async () => {

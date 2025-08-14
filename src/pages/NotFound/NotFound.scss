@@ -1,0 +1,204 @@
+// src/pages/NotFound.scss
+
+.notfound-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f9fafb;
+    padding: 2rem 1rem;
+}
+
+.notfound-container {
+    max-width: 500px;
+    width: 100%;
+}
+
+.notfound-content {
+    background: white;
+    border-radius: 16px;
+    padding: 3rem 2rem;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+
+    // Background decoration
+    &::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, transparent, rgba(59, 130, 246, 0.05), transparent);
+        animation: float 6s ease-in-out infinite;
+    }
+}
+
+.error-code {
+    font-size: 6rem;
+    font-weight: 900;
+    color: #e5e7eb;
+    margin: 0 0 1rem 0;
+    line-height: 1;
+    position: relative;
+    z-index: 1;
+
+    @media (max-width: 640px) {
+        font-size: 4rem;
+    }
+}
+
+.plane-icon {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    display: block;
+    animation: fly 4s ease-in-out infinite;
+    position: relative;
+    z-index: 1;
+}
+
+.notfound-content h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+
+    @media (max-width: 640px) {
+        font-size: 1.5rem;
+    }
+}
+
+.notfound-content p {
+    font-size: 1.125rem;
+    color: #6b7280;
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+}
+
+.notfound-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;
+    z-index: 1;
+
+    @media (min-width: 640px) {
+        flex-direction: row;
+        justify-content: center;
+    }
+}
+
+// Button styles
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 120px;
+
+    &:hover {
+        transform: translateY(-1px);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+}
+
+.btn-primary {
+    background: #3b82f6;
+    color: white;
+
+    &:hover {
+        background: #2563eb;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+}
+
+.btn-secondary {
+    background: #6b7280;
+    color: white;
+
+    &:hover {
+        background: #4b5563;
+        box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
+    }
+}
+
+.btn-outline {
+    background: transparent;
+    color: #6b7280;
+    border: 2px solid #d1d5db;
+
+    &:hover {
+        background: #f9fafb;
+        border-color: #9ca3af;
+        color: #374151;
+    }
+}
+
+// Animations
+@keyframes float {
+
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+
+    50% {
+        transform: rotate(1deg);
+    }
+}
+
+@keyframes fly {
+
+    0%,
+    100% {
+        transform: translateX(0) translateY(0);
+    }
+
+    25% {
+        transform: translateX(10px) translateY(-5px);
+    }
+
+    50% {
+        transform: translateX(0) translateY(-10px);
+    }
+
+    75% {
+        transform: translateX(-10px) translateY(-5px);
+    }
+}
+
+// Responsive design
+@media (max-width: 640px) {
+    .notfound-page {
+        padding: 1rem;
+    }
+
+    .notfound-content {
+        padding: 2rem 1.5rem;
+    }
+
+    .notfound-actions {
+        gap: 0.75rem;
+    }
+
+    .btn {
+        padding: 0.875rem 1.25rem;
+        font-size: 0.9rem;
+    }
+}
