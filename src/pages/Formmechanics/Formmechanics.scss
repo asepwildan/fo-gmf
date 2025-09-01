@@ -1,0 +1,171 @@
+/* DataForm.scss tanpa variabel / mixin */
+
+/* ====== Form Block ====== */
+.df {
+  background: #ffffff;
+  color: #0f172a;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(2, 6, 23, 0.08);
+  padding: clamp(16px, 2.5vw, 28px);
+  max-width: 920px;
+  margin: 24px auto;
+}
+
+.df__header {
+  margin-bottom: 8px;
+}
+
+.df__title {
+  margin: 0 0 6px 0;
+  font-size: clamp(18px, 2.4vw, 24px);
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.df__subtitle {
+  margin: 0 0 12px 0;
+  color: #475569;
+  font-size: 14px;
+}
+
+/* Grid responsif: 1 kolom > 2 > 3 */
+.df__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+@media (min-width: 640px) {
+  .df__grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 960px) {
+  .df__grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.df__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.df__label {
+  font-weight: 600;
+  font-size: 13.5px;
+  color: #475569;
+}
+
+.df__control {
+  appearance: none;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #0f172a;
+  font-size: 14px;
+  transition: border-color .2s ease, box-shadow .2s ease, transform .02s ease;
+}
+.df__control:hover {
+  border-color: #eef2f7; /* lighten(#e2e8f0, ~8%) */
+}
+.df__control:focus {
+  outline: 2px solid #93c5fd;
+  outline-offset: 2px;
+}
+.df__control--textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.df__footer {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+/* Buttons */
+.df__btn {
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .02s ease, box-shadow .15s ease, background .2s ease;
+}
+.df__btn:active {
+  transform: translateY(1px);
+}
+.df__btn--primary {
+  background: #2563eb;
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.25);
+}
+.df__btn--primary:hover {
+  background: #1d4ed8;
+}
+.df__btn--primary:focus {
+  outline: 2px solid #93c5fd;
+  outline-offset: 2px;
+}
+
+.df__btn--ghost {
+  background: transparent;
+  color: #0f172a;
+  border-color: #e2e8f0;
+}
+.df__btn--ghost:hover {
+  background: #f8fafc;
+}
+.df__btn--ghost:focus {
+  outline: 2px solid #93c5fd;
+  outline-offset: 2px;
+}
+
+/* ====== JSON Output Box ====== */
+.df__json-output {
+  background: #f9fafb;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 16px;
+  margin: 20px auto;
+  max-width: 920px;
+  box-shadow: 0 8px 24px rgba(2, 6, 23, 0.08);
+}
+
+.df__json-output h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.df__json-output pre {
+  background: #1e293b;
+  color: #f1f5f9;
+  padding: 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.4;
+  max-height: 280px;
+}
+
+.df__json-output .df__btn {
+  margin-top: 12px;
+}
+
+/* ====== Utility (optional) ====== */
+.is-invalid {
+  border-color: #ef4444 !important;
+}
+.help-text {
+  font-size: 12px;
+  color: #475569;
+}
+.error-text {
+  font-size: 12px;
+  color: #ef4444;
+}

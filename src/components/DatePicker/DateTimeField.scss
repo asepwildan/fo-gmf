@@ -1,0 +1,29 @@
+/* pembungkus */
+.dtf {
+  width: 100%;
+}
+
+/* input */
+.dtf__input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #0f172a;
+  font-size: 14px;
+}
+.dtf__input:focus {
+  outline: 2px solid #93c5fd;
+  outline-offset: 2px;
+}
+
+/* popup */
+.dtf__calendar {
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 24px rgba(2, 6, 23, 0.08) !important;
+}
+.dtf__popper {
+  z-index: 9999;
+}
