@@ -1,79 +1,105 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Table from "../../components/Table/Table";
 import "./Reports.scss";
+import { useReport } from "../../hooks/useReport"; // ⬅️ NEW
+
+// mapping label status agar rapi di UI
+const STATUS_LABEL = {
+  Pending: "Pending",
+  InProgress: "In Progress",
+  Completed: "Completed",
+};
+
+// format ke WIB (Asia/Jakarta)
+function toWIB(iso) {
+  if (!iso) return "";
+  const d = new Date(iso);
+  return d.toLocaleString("id-ID", { timeZone: "Asia/Jakarta", hour12: false });
+}
 
 const Reports = () => {
-  const [data, setData] = useState([
-    {
-      datetime: "2025-08-15 10:25",
-      photo: "https://example.com/foto1.jpg",
-      mechanic: "Budi Santoso",
-      machineCode: "MCH-001",
-      location: "Line A",
-      status: "In Progress",
-      notes: "Ganti belt utama",
-    },
-    {
-      datetime: "2025-08-15 11:40",
-      photo: "https://example.com/foto2.jpg",
-      mechanic: "Agus Setiawan",
-      machineCode: "MCH-002",
-      location: "Line B",
-      status: "Completed",
-      notes: "Servis rutin selesai",
-    },
-    {
-      datetime: "2025-08-15 13:15",
-      photo: "https://example.com/foto3.jpg",
-      mechanic: "Andi Pratama",
-      machineCode: "MCH-003",
-      location: "Warehouse",
-      status: "Waiting Parts",
-      notes: "Menunggu bearing",
-    },
-    {
-      datetime: "2025-08-15 14:50",
-      photo: "https://example.com/foto4.jpg",
-      mechanic: "Rudi Hartono",
-      machineCode: "MCH-004",
-      location: "Line C",
-      status: "In Progress",
-      notes: "Kalibrasi sensor",
-    },
-    {
-      datetime: "2025-08-15 15:30",
-      photo: "https://example.com/foto5.jpg",
-      mechanic: "Eko Wibowo",
-      machineCode: "MCH-005",
-      location: "QC Area",
-      status: "On Hold",
-      notes: "Butuh approval supervisor",
-    },
-  ]);
+  const {
+    reports, // ⬅️ NEW: array dari store (hasil fetch ke /api/reports)
+    fetchReports, // ⬅️ NEW: action untuk ambil data
+    isLoadingReports, // ⬅️ NEW: loading state
+    error, // ⬅️ NEW: error global kalau ada
+  } = useReport();
 
+  // Sinkronkan data dari store -> state lokal (agar bisa sort lokal)
+  const initialRows = useMemo(() => {
+    return (reports || []).map((r) => {
+      const d = new Date(r.datetime);
+      return {
+        datetime: toWIB(r.datetime),
+        photo: r.photo || "",
+        mechanic: r.mechanic,
+        machineCode: r.machineCode,
+        location: r.location,
+        status: STATUS_LABEL[r.status] || r.status,
+        notes: r.notes || "",
+        dtSort: d.getTime(), // untuk sort kolom datetime
+      };
+    });
+  }, [reports]); // ⬅️ NEW
+
+  const [rows, setRows] = useState(initialRows); // ⬅️ NEW
+
+  // Saat data store berubah, refresh state lokal
+  useEffect(() => {
+    setRows(initialRows);
+  }, [initialRows]); // ⬅️ NEW
+
+  // Ambil data saat mount
+  useEffect(() => {
+    // Kamu bisa kirim params kalau store kamu mendukung: fetchReports({ page:1, pageSize:50 })
+    fetchReports(); // ⬅️ NEW
+  }, []);
+  useEffect(() => {
+    console.log("INI REPORTS", reports);
+  }, [reports]);
   const columns = [
     { key: "datetime", label: "Data & Time", sortable: true },
     { key: "photo", label: "Photo" },
     { key: "mechanic", label: "Mechanic Name", sortable: true },
     { key: "machineCode", label: "Engine Code", sortable: true },
-    // kolom baru
     { key: "location", label: "Location", sortable: true },
     { key: "status", label: "Status", sortable: true },
     { key: "notes", label: "Notes" },
   ];
 
-  // 🔹 Fungsi sort sederhana
+  // 🔹 Fungsi sort sederhana (pakai state lokal 'rows')
   const handleSort = (key) => {
-    const sorted = [...data].sort((a, b) =>
-      String(a[key]).localeCompare(String(b[key]))
-    );
-    setData(sorted);
+    const sorted = [...rows].sort((a, b) => {
+      if (key === "datetime" && a.dtSort && b.dtSort) {
+        return a.dtSort - b.dtSort;
+      }
+      return String(a[key]).localeCompare(String(b[key]));
+    });
+    setRows(sorted);
   };
+
+  if (isLoadingReports) {
+    return (
+      <div className="reports-page">
+        <h2>Reports</h2>
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  if (error?.reports) {
+    return (
+      <div className="reports-page">
+        <h2>Reports</h2>
+        <p style={{ color: "crimson" }}>Error: {String(error.reports)}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="reports-page">
       <h2>Reports</h2>
-      <Table columns={columns} data={data} onSort={handleSort} />
+      <Table columns={columns} data={rows} onSort={handleSort} />
     </div>
   );
 };
