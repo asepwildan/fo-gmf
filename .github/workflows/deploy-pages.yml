@@ -2,13 +2,11 @@ name: Deploy Vite to GitHub Pages
 
 on:
   push:
-    branches: [ main ]   # ganti jika branch-mu berbeda
+    branches: [ main ]         # ganti kalau branch kamu bukan main
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: read               # cukup untuk job build
 
 concurrency:
   group: "pages"
@@ -19,13 +17,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      # (opsional) Node untuk build Vite
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+
+      # WAJIB: siapkan Pages
+      - uses: actions/configure-pages@v5
+
       - run: yarn install --frozen-lockfile
       - run: yarn build
-      # SPA fallback agar refresh route tidak 404
-      - run: cp dist/index.html dist/404.html
+      - run: cp dist/index.html dist/404.html   # SPA fallback
+
+      # Upload artifact untuk Pages
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
@@ -33,9 +38,16 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+
+    # Permission khusus job deploy
+    permissions:
+      pages: write
+      id-token: write
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
