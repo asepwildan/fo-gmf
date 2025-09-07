@@ -59,7 +59,7 @@ const Home = () => {
     if (result.success) {
       console.log('QR generated!', result.data);
       // qrData sekarang berisi response dari API
-      setQRLink(result.data.data.link)
+      setQRLink(result.data.link)
       setIsQRModalOpen(true);
     } else {
       console.error('Failed to generate QR:', result.error);

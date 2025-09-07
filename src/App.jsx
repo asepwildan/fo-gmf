@@ -7,9 +7,12 @@ import FormMechanics from "./pages/Formmechanics/Formmechanics";
 import "./App.css";
 import "./components/ui/QRModal/QRModal.scss";
 
+
+const BASENAME = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
+
 function App() {
   return (
-    <Router>
+    <Router basename={BASENAME}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/help" element={<Help />} />
